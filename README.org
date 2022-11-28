@@ -52,3 +52,45 @@
 * Research
 * Research Summaries and Notes
 * Common Errors
+
+GUI
+
+(1) An interactive map
+(2) Universal Media Player
+(3) Event-Hierarchy Viewer
+(4) Audio Annotation Tool
+(5) Event-Detail Display
+(6) Timeline
+(7) Media Gallery
+
+
+User Operation List
+| Operation                               | I/O                  | GUI Action                                                                                                                                                                     |
+| Create Empty Event                      | {}->event            | Draw a r ectangle to indicate approximate start and end dates in the timeline or right click on the hierarchy viewer to create a new event, and then enter details.            |
+| Create Event(manual)                    | {MMO}->event         | Draw a r ectangle to indicate approximate start and end dates in the timeline or right click on the hierarchy viewer to create a new event, and then enter details.            |
+| Create Events using a cluster algorithm | {MMO} -> {event}     | Select multiple media items from the gallery, and then right click to se lect the clustering options. Multiple events will be created automatically based on the events dates. |
+| Insert Media                            | {MMO}, event         | Select one or more media items inserted into existing event then DnD into the desired event on the hierarchy viewer or timeline.                                               |
+| Remove Event                            | {MMO}                | Select one or multiple media items, and then right click to remove to an archive.                                                                                              |
+| Attach Event                            | {event},event        | Select an event to be atta ched then DnD to the desired event. If the event is not within the time range of the super-event, it would not be attached                          |
+| Detach from super-event                 | {event}, super-event | Select an event to detach then DnD it outside the super-event                                                                                                                  |
+
+
+* Demonstrating Design Efficacy and Event-Clustering through Experimentation
+  
+
+**** Compared with Competitors
+     Apple Photos, Google Albums
+
+****  Experimentation
+***** Effectiveness of Time-Based Clustering to Define Events
+***** Usefulness of the proposed interactions for users in managing information
+
+***** Qualitative and Quantitative results 
+     + Likert Scales, Questionnaires, and Surveys
+     + Empirical measurements of access complexity via motions/time
+     + Estimate the NASA Task Load Index score for various environments
+
+Events
+-> Theory, event-relations, clustering
+
+

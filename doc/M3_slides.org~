@@ -1,0 +1,180 @@
+#+LATEX_HEADER: \usepackage[margin=0.5in]{geometry}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+HTML_HEAD_EXTRA: <link rel='stylesheet' href='https://portalsf.surge.sh/static/stylesheets/blackmeadow.css' media='all'>
+#+OPTIONS: toc:nil title:nil
+#+TITLE:Automatic Event-Based Grouping and Interaction with Personal Multimedia Information
+#+AUTHOR:Group 11: Andy Cho & Kevin Islas Orgaz
+#+DESCRIPTION:Slide Deck for our M3 Presentation
+#+DATE:<2022-11-28 Mon>
+#+LATEX_HEADER: \usepackage{fancyhdr}                                                         
+#+LATEX_HEADER: \pagestyle{fancyplain}                                                        
+#+LATEX_HEADER: \chead{}
+#+LATEX_HEADER: \lhead{}                                                                      
+#+LATEX_HEADER: \rhead{Cho Orgaz \thepage}                                                                      
+#+LATEX_HEADER: \cfoot{CSC664 - Team 11- Project 14}                   
+#+LATEX_HEADER: \lfoot{}                                                                      
+#+LATEX_HEADER: \rfoot{}  
+
+
+
+#+BEGIN_EXPORT latex
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE San Francisco State University}\\[1.5cm]
+	\textsc{\Large CSC664-01}\\[0.5cm]
+	
+	
+	\textsc{\large Professor Rahul Singh}\\[0.5cm]
+	\textsc{\large TA - Fiona Senchyna}\\[0.3cm]
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries  Automatic Event-Based Grouping and Interaction with Personal Multimedia Information}\\[0.1cm] % Title of your document
+	{\huge\bfseries  Presentation Itinerary}\\[0.5cm] % Title of your document
+	
+	\HRule\\[0.4cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\textsc{Team 11}\\
+			\textsc{Andy Cho}\\
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\textsc{Project 13}\\
+			\textsc{Kevin Islas Orgaz}\\
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	
+
+	%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+	
+	\vfill
+	 
+	{\large\today} % Date, change the \today to a set date if you want to be precise
+	\vfill
+	%----------------------------------------------------------------------------------------
+	
+	\vfill % Push the date up 1/4 of the remaining page
+	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+\tableofcontents
+#+END_EXPORT
+
+
+
+#+LATEX:\newpage
+* Dataset and GUI Requirements
+** Dataset
+  Our dataset was derived from custom downloaded family event albums from flickr with the original timestamps.
+  We also included our own photos in order to capture all the raw metadata files can have- both temporally(datetime) and spatially(lat, lon)
+  We manually tagged our flickr dataset with geo-coordinates for usage in our multimedia system
+
+** GUI Functional Requirements
+User Operation List
+|-----------------------------------------+----------------------|
+| Operation                               | I/O                  |
+|-----------------------------------------+----------------------|
+| Insert Media                            | {MMO}, event         |
+| Create Empty Event                      | {}->event            |
+| Create Event(manual)                    | {MMO}->event         |
+| Create Events using a cluster algorithm | {MMO} -> {event}     |
+| Remove Event                            | {MMO}                |
+| Attach Event                            | {event},event        |
+| Detach from super-event                 | {event}, super-event |
+|-----------------------------------------+----------------------|
+
+ 
+
+#+LATEX:\newpage
+* Design
+** Library Gallery: An overview of all multimedia files to be sorted as events
+        + mimetypes like 'image/jpeg' categorize all multimedia into distinct categories making it easier to make queries with filetype
+** Universal Media Player: 
+        For a few media types, we use 3rd party libraries, for the majority however, we used standard libraries that pre-exist within our codebase.
+          |-------------+---------------------------------------------------------------------|
+          | Media Types |                                                                     |
+          |-------------+---------------------------------------------------------------------|
+          | application |                                                                     |
+          | audio       | Various Audio-Processing Libraries for Audio-based event-annotation |
+          | image       | standard html, css, and js libraries                                |
+          | message     | stl                                                                 |
+          | multipart   | stl                                                                 |
+          | text        | stl                                                                 |
+          | video       | stl                                                                 |
+          |-------------+---------------------------------------------------------------------|
+
+** Timeline: Temporal Clustering based off of different classes of Event-Relations
+      **LIVE-DEMO**:
+        + Point-Point Relations
+        + Point-Interval Relations
+        + Interval-Interval Relations
+
+** GPS Event Display: 
+        + Estimating Spatial Realms for Events based off of Multimedia Sets
+           Calculating a set of points and nonconvergent lines
+               Methodology, Issues, Solutions
+
+
+        + Powered by GoogleMaps
+          - For rapid prototyping purposes, events are clustered into an 'average' set of coordinates and then displayed fed and displayed onto the GoogleMaps world viewer
+	  
+** Media Annotation Tool:
+        Our Media Annotation Tool is split into 2 parts
+        + A simple and interactive way to create CRUD operations on EXIF data for temporal and spatial data.
+        Multimedia-Processing Libraries
+        + FacialDetection functionality to tag certain people
+        + AudioProcessing to tag important data like meeting subject times
+
+** Event-Detail and Event-Hierarchy Display
+        An interactive medium to modify events and their position and status within their event-hierarchy
+
+
+#+LATEX:\newpage
+* Experimentation: Demonstrating Design Efficacy and Event-Clustering through Experimentation
+**  Experimentation
+*** Effectiveness of Time-Based Clustering to Define Events
+*** Usefulness of the proposed interactions for users in managing information
+*** Qualitative and Quantitative results 
+     + Likert Scales, Questionnaires, and Surveys
+     + Empirical measurements of access complexity via motions/time
+     + Estimate the NASA Task Load Index score for various environments
+

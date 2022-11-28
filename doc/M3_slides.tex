@@ -1,0 +1,236 @@
+% Created 2022-11-27 Sun 23:42
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\chead{}
+\lhead{}
+\rhead{Cho Orgaz \thepage}
+\cfoot{CSC664 - Team 11- Project 14}
+\lfoot{}
+\rfoot{}
+\author{Group 11: Andy Cho \& Kevin Islas Orgaz}
+\date{\textit{<2022-11-28 Mon>}}
+\title{Automatic Event-Based Grouping and Interaction with Personal Multimedia Information}
+\hypersetup{
+ pdfauthor={Group 11: Andy Cho \& Kevin Islas Orgaz},
+ pdftitle={Automatic Event-Based Grouping and Interaction with Personal Multimedia Information},
+ pdfkeywords={},
+ pdfsubject={Slide Deck for our M3 Presentation},
+ pdfcreator={Emacs 28.2 (Org mode 9.5.5)}, 
+ pdflang={English}}
+\begin{document}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE San Francisco State University}\\[1.5cm]
+	\textsc{\Large CSC664-01}\\[0.5cm]
+	
+	
+	\textsc{\large Professor Rahul Singh}\\[0.5cm]
+	\textsc{\large TA - Fiona Senchyna}\\[0.3cm]
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	{\huge\bfseries  Automatic Event-Based Grouping and Interaction with Personal Multimedia Information}\\[0.1cm] % Title of your document
+	\HRule\\[0.4cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+
+	
+	\begin{minipage}{0.4\textwidth}
+	{\huge\bfseries  Presentation Itinerary}\\[0.5cm] % Title of your document
+	\end{minipage}
+	
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\textsc{Team 11}\\
+			\textsc{Andy Cho}\\
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\textsc{Project 13}\\
+			\textsc{Kevin Islas Orgaz}\\
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	
+
+	%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+	
+	\vfill
+	 
+	{\large\today} % Date, change the \today to a set date if you want to be precise
+	\vfill
+	%----------------------------------------------------------------------------------------
+	
+	\vfill % Push the date up 1/4 of the remaining page
+	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+\tableofcontents
+
+
+
+\newpage
+\section{Dataset and GUI Requirements}
+\label{sec:org6068936}
+\subsection{Dataset}
+\label{sec:org92fcc91}
+Our dataset was derived from custom downloaded family event albums from flickr with the original timestamps.
+We also included our own photos in order to capture all the raw metadata files can have- both temporally(datetime) and spatially(lat, lon)
+We manually tagged our flickr dataset with geo-coordinates for usage in our multimedia system
+
+\subsection{GUI Functional Requirements}
+\label{sec:org18914f0}
+User Operation List
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Operation & I/O\\
+\hline
+Insert Media & \{MMO\}, event\\
+Create Empty Event & \{\}->event\\
+Create Event(manual) & \{MMO\}->event\\
+Create Events using a cluster algorithm & \{MMO\} -> \{event\}\\
+Remove Event & \{MMO\}\\
+Attach Event & \{event\},event\\
+Detach from super-event & \{event\}, super-event\\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+\newpage
+\section{Design}
+\label{sec:orgb4f7435}
+\subsection{Library Gallery: An overview of all multimedia files to be sorted as events}
+\label{sec:org68c48d3}
+\begin{itemize}
+\item mimetypes like 'image/jpeg' categorize all multimedia into distinct categories making it easier to make queries with filetype
+\end{itemize}
+\subsection{Universal Media Player:}
+\label{sec:orgc2e499c}
+For a few media types, we use 3rd party libraries, for the majority however, we used standard libraries that pre-exist within our codebase.
+\begin{center}
+\begin{tabular}{ll}
+\hline
+Media Types & \\
+\hline
+application & \\
+audio & Various Audio-Processing Libraries for Audio-based event-annotation\\
+image & standard html, css, and js libraries\\
+message & stl\\
+multipart & stl\\
+text & stl\\
+video & stl\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Timeline: Temporal Clustering based off of different classes of Event-Relations}
+\label{sec:org585c2b4}
+\textbf{\textbf{LIVE-DEMO}}:
+\begin{itemize}
+\item Point-Point Relations
+\item Point-Interval Relations
+\item Interval-Interval Relations
+\end{itemize}
+
+\subsection{GPS Event Display:}
+\label{sec:orgbb30b01}
+\begin{itemize}
+\item Estimating Spatial Realms for Events based off of Multimedia Sets
+Calculating a set of points and nonconvergent lines
+    Methodology, Issues, Solutions
+\end{itemize}
+
+
+\begin{itemize}
+\item Powered by GoogleMaps
+\begin{itemize}
+\item For rapid prototyping purposes, events are clustered into an 'average' set of coordinates and then displayed fed and displayed onto the GoogleMaps world viewer
+\end{itemize}
+\end{itemize}
+
+\subsection{Media Annotation Tool:}
+\label{sec:orgeab4932}
+Our Media Annotation Tool is split into 2 parts
+\begin{itemize}
+\item A simple and interactive way to create CRUD operations on EXIF data for temporal and spatial data.
+\end{itemize}
+Multimedia-Processing Libraries
+\begin{itemize}
+\item FacialDetection functionality to tag certain people
+\item AudioProcessing to tag important data like meeting subject times
+\end{itemize}
+
+\subsection{Event-Detail and Event-Hierarchy Display}
+\label{sec:orgcc763d2}
+An interactive medium to modify events and their position and status within their event-hierarchy
+
+
+\newpage
+\section{Experimentation: Demonstrating Design Efficacy and Event-Clustering through Experimentation}
+\label{sec:org028c8c7}
+\subsection{Experimentation}
+\label{sec:orgd3257e7}
+\subsubsection{Effectiveness of Time-Based Clustering to Define Events}
+\label{sec:org2bdb83c}
+\subsubsection{Usefulness of the proposed interactions for users in managing information}
+\label{sec:orgd88d29e}
+\subsubsection{Qualitative and Quantitative results}
+\label{sec:orga7d3f3e}
+\begin{itemize}
+\item Likert Scales, Questionnaires, and Surveys
+\item Empirical measurements of access complexity via motions/time
+\item Estimate the NASA Task Load Index score for various environments
+\end{itemize}
+\end{document}
