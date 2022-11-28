@@ -1,0 +1,53 @@
+services:
+  app:
+    entrypoint:
+    - sleep
+    - infinity
+    image: docker/dev-environments-default:stable-1
+    init: true
+    volumes:
+    - type: bind
+      source: /var/run/docker.sock
+      target: /var/run/docker.sock
+
+
+
+version: "3.7"
+services:
+  backend:
+    build:
+      context: backend
+      target: development
+    secrets:
+      - db-password
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=smartmediainterface
+      - MYSQL_USER=tester00
+      - MYSQL_ROOT_PASSWORD_FILE=Grapefruit123!@#
+    expose:
+      - 3306
+  proxy:
+    build: proxy
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
+volumes:
+  db-data:
+secrets:
+  db-password:
+    file: db/password.txt
