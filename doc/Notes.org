@@ -1,0 +1,4 @@
+so there are 4 termianls opened
+1 is for running 'npm start' in server, the other for client/
+
+the other two are scratch terminals incase you need it

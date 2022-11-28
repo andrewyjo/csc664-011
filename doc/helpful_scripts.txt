@@ -1,0 +1,30 @@
+
+
+
+exports filenames into previous folder(use ../(or a different dir) because saving it in the same folder will cause parsing issues)
+ls >> ../filenames.txt
+
+timestamps
+for file in ./*; do exiftool  $file|grep 'Date/Time Original'; done >> ../timestamps.txt
+
+filesizes in bytes
+for file in ./*; do  exiftool -n -filesize# $file; done >> filesizes.txt
+
+mimetypes(file type)
+for file in ./*; do  exiftool -mimetype# $file; done | awk '{print $4}' >> mimetypes.txt
+
+
+I used vim to delete all overhead info in the txtfile and copied it directly into workbench
+
+
+VIM SCRIPTS(open the file and type the following char sequences without spaces)
+mimetypes.txt: stripping the /jpeg off of image/jpeg
+q 1 f / d $ esc j 0 q 100 @ 1
+
+
+CREATE USER 'tester00'@'localhost' IDENTIFIED BY 'Grapefruit123!@#';
+CREATE USER 'tester00'@'%' IDENTIFIED BY 'Grapefruit123!@#';
+GRANT ALL PRIVILEGES ON *.* TO 'tester00'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'tester00'@'localhost';
+FLUSH PRIVILEGES;
+exit

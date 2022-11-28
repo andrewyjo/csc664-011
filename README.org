@@ -1,0 +1,54 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+TITLE:Intelligent Multimedia Interface
+#+AUTHOR:Kevin Islas, Andy Cho
+#+DESCRIPTION:docs for our pim
+#+DATE:<2022-11-26 Sat>
+
+
+* Team Kanban Board
+  |------------------------------------------+-------+------|
+  | TODO                                     | DOING | DONE |
+  |------------------------------------------+-------+------|
+  | ANDY                                     |       |      |
+  |------------------------------------------+-------+------|
+  | + Connect to MySQL                       |       |      |
+  | + Populate MySQL with Images             |       |      |
+  | + Display the MySQL data onto react html |       |      |
+  | + Do some styling                        |       |      |
+  |                                          |       |      |
+  |                                          |       |      |
+  |------------------------------------------+-------+------|
+  | KEVIN                                    |       |      |
+  |------------------------------------------+-------+------|
+  |                                          |       |      |
+  |                                          |       |      |
+  |------------------------------------------+-------+------|
+  | BOTH                                     |       |      |
+  |------------------------------------------+-------+------|
+  |                                          |       |      |
+  |                                          |       |      |
+  |------------------------------------------+-------+------|
+* Introduction
+* Project Guidelines
+* About this Repo
+  
+** In order to run this project at this stage:
+   
+   In the client/ folder, make sure to make a directory called data/DATA01/
+
+   1.) Open two terminals
+   2.) cd into client and cd into server for each terminal respectively
+   For each terminal:
+   3.) Do a npm init -y
+   4.) npm install
+   5.) npm start 
+   
+   
+
+* Dataset
+* Design
+* Features
+* Experiments: efficiency and optimality of our interface
+* Research
+* Research Summaries and Notes
+* Common Errors
