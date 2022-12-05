@@ -2,3 +2,59 @@ so there are 4 termianls opened
 1 is for running 'npm start' in server, the other for client/
 
 the other two are scratch terminals incase you need it
+
+
+
+
+
+
+
+* Saturday
+GUI 
+- Timeline
+- Spatial Map
+- Event Viewer
+- Event Hierarchy Manager
+
+Theory
+- Creating an event based on time
+- Creating an event based on space 
+
+Experiments
+- 
+
+ 🐱 Itinerary 🐱
+ - K-Means Clustering and output Cluster #'s
+ - Connect it to html
+ - Connect Polygon Regions
+
+
+
+So right now we have a list of randomPoints 
+and a list of relativePoints, which is the distance from the 1st point to each of the randomPoints
+K is 4, so we have 4 randompoints
+
+Now for the 4th step...
+We assign the 1st point to the nearest cluster
+
+So we take the difference from each random point
+
+
+
+
+
+
+Okay, let's create an event input page
+It should contain all of the images in a scrollable box on the left
+and you should click to check it
+On the right is the event itself.
+POSTing will create a new event.
+
+all of the buttons in the left are encapsulated in a from
+the entire page should be consist of multiple forms
+
+each button should represent a post request that updates a list with 
+the File object itself.
+
+on click, the button should do some kind of animation to verify it is an active button
+

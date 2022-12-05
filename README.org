@@ -94,3 +94,9 @@ Events
 -> Theory, event-relations, clustering
 
 
+
+* Lecture Notes
+Unit Tests
+Data Parameters 
+Easy Environment Setup
+contribution table
