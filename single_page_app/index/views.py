@@ -2,7 +2,7 @@ import datetime
 from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from . import forms
 from . import models
@@ -15,6 +15,8 @@ import mpld3
 from mpld3 import plugins
 
 import cv2
+
+
 
 
 # create a function
@@ -72,9 +74,7 @@ def index(request):
 
     return render(request, "index/index.html", context)
 
-
-def may(request):
-    libraryForm = forms.libraryForm()
+def bubbles(request):
     #currentLibrary = models.Library.objects.get(id=1)
 
     #os.system('ls ../data/001/ >> filelist.txt')
@@ -92,322 +92,45 @@ def may(request):
               "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"]
 
     files = models.File.objects.all()
+    selectedFiles = []
 
-    for i in files:
-        print(files.name)
+    emptyEventForm = forms.emptyEventForm()
 
-    dates = []
-    hist = []
-    for i in files:
-        dates.append(i.dateCreated.month)
-        print(i.dateCreated.month)
+    selectedFiles = request.POST.getlist('selectFile')
 
-    dates = sorted(Counter(dates).items())
-    x, y = zip(*dates)
+    if request.method == 'POST':
+        emptyEventForm = forms.emptyEventForm(request.POST)
+        if emptyEventForm.is_valid():
+            event = emptyEventForm.save()
+            print(event.id)
+            for x in request.POST.getlist('selectFile'):
+                entry = models.File.objects.get(id = x)
+                entry.event = event
+                entry.save()
+            print(request.POST.getlist('selectFile'))
 
-    print(x)
-    print(y)
-    # Create a random number generator with a fixed seed for reproducibility
-    rng = np.random.default_rng(19680801)
+            context = {
+                'event' : models.Event.objects.get(id = event.id),
+                #'files' : models.File.objects.all(event = event)
+            }
+            return redirect(index)
 
-    # Generate two normal distributions
+            #return render(request, "index/eventViewer.html", context)
 
-    #fig, ax = plt.subplots()
-    #bins = np.arange(1,14)
-    #ax.hist(x, bins = bins, data=months, edgecolor="k", align='left')
-    # ax.set_xticks(bins[:-1])
-    #plt.plot(x,y,  marker='o', linestyle='none',)
 
-    # We can set the number of bins with the *bins* keyword argument.
 
-    #ax.set_title('Event Timeline', size=20)
-    #plugins.connect(fig, plugins.MousePosition(fontsize=14))
-    # mpld3.show()
+
+
+    #if request.method == 'POST':
+
+
+
 
     context = {
-        'form': libraryForm,
-        #    'currentLibrary': currentLibrary,
-        'files': models.File.objects.all()
+        'files': files,
+        'months': months,
+        'emptyEventForm':emptyEventForm
     }
 
-    if 'libSelect' in request.POST:
-        path = request.POST.get('path')
-        name = request.POST.get('name')
-        if libraryForm.is_valid():
-            library = libraryForm.save()
-            return render(request, "index/index.html", context)
-        else:
-            print(libraryForm.errors)
-            return render(request, "index/index.html", context)
+    return render(request, "index/test.html", context)
 
-    if 'fdSelect' in request.POST:
-
-        fdImg = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + \
-            request.POST['fdSelect']
-
-        numFaces = facialDetection(fdImg, request.POST['fdSelect'])
-        current = models.File.objects.get(filename=request.POST['fdSelect'])
-        current.faceCount = numFaces
-        current.save()
-        context = {
-            'form': libraryForm,
-            'files': models.File.objects.all(),
-            'selected': models.File.objects.get(filename=request.POST['fdSelect'])
-        }
-
-        print(request.POST)
-        return render(request, "index/may.html", context)
-
-    return render(request, "index/may.html", context)
-
-
-def june(request):
-    libraryForm = forms.libraryForm()
-    #currentLibrary = models.Library.objects.get(id=1)
-
-    #os.system('ls ../data/001/ >> filelist.txt')
-
-    # Init Library Files
-    # for i,j in zip(open('filelist.txt') ,open('datelist.txt')):
-    #   x = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + i
-    #   #os.system(x)
-    #   #exiftool -d "%Y-%m-%d %H:%M:%S" venice-beach-2022_52095619642_o.jpg | grep 'Create Date' | head -1 | awk '{print $4,$5,$6}'
-
-    #   #SAVING NEW FILES TO DB
-    #   blob = models.File(filename=i.rstrip(), path=x.rstrip() , dateCreated=j.rstrip())
-    #   blob.save()
-    months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-              "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"]
-
-    files = models.File.objects.all()
-    dates = []
-    hist = []
-    for i in files:
-        dates.append(i.dateCreated.month)
-        print(i.dateCreated.month)
-
-    dates = sorted(Counter(dates).items())
-    x, y = zip(*dates)
-
-    print(x)
-    print(y)
-    # Create a random number generator with a fixed seed for reproducibility
-    rng = np.random.default_rng(19680801)
-
-    # Generate two normal distributions
-
-    #fig, ax = plt.subplots()
-    #bins = np.arange(1,14)
-    #ax.hist(x, bins = bins, data=months, edgecolor="k", align='left')
-    # ax.set_xticks(bins[:-1])
-    #plt.plot(x,y,  marker='o', linestyle='none',)
-
-    # We can set the number of bins with the *bins* keyword argument.
-
-    #ax.set_title('Event Timeline', size=20)
-    #plugins.connect(fig, plugins.MousePosition(fontsize=14))
-    # mpld3.show()
-
-    context = {
-        'form': libraryForm,
-        #    'currentLibrary': currentLibrary,
-        'files': models.File.objects.all()
-    }
-
-    if 'libSelect' in request.POST:
-        path = request.POST.get('path')
-        name = request.POST.get('name')
-        if libraryForm.is_valid():
-            library = libraryForm.save()
-            return render(request, "index/index.html", context)
-        else:
-            print(libraryForm.errors)
-            return render(request, "index/index.html", context)
-
-    if 'fdSelect' in request.POST:
-
-        fdImg = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + \
-            request.POST['fdSelect']
-
-        numFaces = facialDetection(fdImg, request.POST['fdSelect'])
-        current = models.File.objects.get(filename=request.POST['fdSelect'])
-        current.faceCount = numFaces
-        current.save()
-        context = {
-            'form': libraryForm,
-            'files': models.File.objects.all(),
-            'selected': models.File.objects.get(filename=request.POST['fdSelect'])
-        }
-
-        print(request.POST)
-        return render(request, "index/june.html", context)
-
-    return render(request, "index/june.html", context)
-
-
-def july(request):
-    libraryForm = forms.libraryForm()
-    #currentLibrary = models.Library.objects.get(id=1)
-
-    #os.system('ls ../data/001/ >> filelist.txt')
-
-    # Init Library Files
-    # for i,j in zip(open('filelist.txt') ,open('datelist.txt')):
-    #   x = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + i
-    #   #os.system(x)
-    #   #exiftool -d "%Y-%m-%d %H:%M:%S" venice-beach-2022_52095619642_o.jpg | grep 'Create Date' | head -1 | awk '{print $4,$5,$6}'
-
-    #   #SAVING NEW FILES TO DB
-    #   blob = models.File(filename=i.rstrip(), path=x.rstrip() , dateCreated=j.rstrip())
-    #   blob.save()
-    months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-              "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"]
-
-    files = models.File.objects.all()
-    dates = []
-    hist = []
-    for i in files:
-        dates.append(i.dateCreated.month)
-        print(i.dateCreated.month)
-
-    dates = sorted(Counter(dates).items())
-    x, y = zip(*dates)
-
-    print(x)
-    print(y)
-    # Create a random number generator with a fixed seed for reproducibility
-    rng = np.random.default_rng(19680801)
-
-    # Generate two normal distributions
-
-    #fig, ax = plt.subplots()
-    #bins = np.arange(1,14)
-    #ax.hist(x, bins = bins, data=months, edgecolor="k", align='left')
-    # ax.set_xticks(bins[:-1])
-    #plt.plot(x,y,  marker='o', linestyle='none',)
-
-    # We can set the number of bins with the *bins* keyword argument.
-
-    #ax.set_title('Event Timeline', size=20)
-    #plugins.connect(fig, plugins.MousePosition(fontsize=14))
-    # mpld3.show()
-
-    context = {
-        'form': libraryForm,
-        #    'currentLibrary': currentLibrary,
-        'files': models.File.objects.all()
-    }
-
-    if 'libSelect' in request.POST:
-        path = request.POST.get('path')
-        name = request.POST.get('name')
-        if libraryForm.is_valid():
-            library = libraryForm.save()
-            return render(request, "index/july.html", context)
-        else:
-            print(libraryForm.errors)
-            return render(request, "index/july.html", context)
-
-    if 'fdSelect' in request.POST:
-
-        fdImg = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + \
-            request.POST['fdSelect']
-
-        numFaces = facialDetection(fdImg, request.POST['fdSelect'])
-        current = models.File.objects.get(filename=request.POST['fdSelect'])
-        current.faceCount = numFaces
-        current.save()
-        context = {
-            'form': libraryForm,
-            'files': models.File.objects.all(),
-            'selected': models.File.objects.get(filename=request.POST['fdSelect'])
-        }
-
-        print(request.POST)
-        return render(request, "index/july.html", context)
-
-    return render(request, "index/july.html", context)
-
-
-def november(request):
-    libraryForm = forms.libraryForm()
-    #currentLibrary = models.Library.objects.get(id=1)
-
-    #os.system('ls ../data/001/ >> filelist.txt')
-
-    # Init Library Files
-    # for i,j in zip(open('filelist.txt') ,open('datelist.txt')):
-    #   x = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + i
-    #   #os.system(x)
-    #   #exiftool -d "%Y-%m-%d %H:%M:%S" venice-beach-2022_52095619642_o.jpg | grep 'Create Date' | head -1 | awk '{print $4,$5,$6}'
-
-    #   #SAVING NEW FILES TO DB
-    #   blob = models.File(filename=i.rstrip(), path=x.rstrip() , dateCreated=j.rstrip())
-    #   blob.save()
-    months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-              "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"]
-
-    files = models.File.objects.all()
-    dates = []
-    hist = []
-    for i in files:
-        dates.append(i.dateCreated.month)
-        print(i.dateCreated.month)
-
-    dates = sorted(Counter(dates).items())
-    x, y = zip(*dates)
-
-    print(x)
-    print(y)
-    # Create a random number generator with a fixed seed for reproducibility
-    rng = np.random.default_rng(19680801)
-
-    # Generate two normal distributions
-
-    #fig, ax = plt.subplots()
-    #bins = np.arange(1,14)
-    #ax.hist(x, bins = bins, data=months, edgecolor="k", align='left')
-    # ax.set_xticks(bins[:-1])
-    #plt.plot(x,y,  marker='o', linestyle='none',)
-
-    # We can set the number of bins with the *bins* keyword argument.
-
-    #ax.set_title('Event Timeline', size=20)
-    #plugins.connect(fig, plugins.MousePosition(fontsize=14))
-    # mpld3.show()
-
-    context = {
-        'form': libraryForm,
-        #    'currentLibrary': currentLibrary,
-        'files': models.File.objects.all()
-    }
-
-    if 'libSelect' in request.POST:
-        path = request.POST.get('path')
-        name = request.POST.get('name')
-        if libraryForm.is_valid():
-            library = libraryForm.save()
-            return render(request, "index/november.html", context)
-        else:
-            print(libraryForm.errors)
-            return render(request, "index/november.html", context)
-
-    if 'fdSelect' in request.POST:
-
-        fdImg = "/Users/andy/dev/fall2022/664/project/single_page_app/static/data/001/" + \
-            request.POST['fdSelect']
-
-        numFaces = facialDetection(fdImg, request.POST['fdSelect'])
-        current = models.File.objects.get(filename=request.POST['fdSelect'])
-        current.faceCount = numFaces
-        current.save()
-        context = {
-            'form': libraryForm,
-            'files': models.File.objects.all(),
-            'selected': models.File.objects.get(filename=request.POST['fdSelect'])
-        }
-
-        print(request.POST)
-        return render(request, "index/november.html", context)
-
-    return render(request, "index/november.html", context)

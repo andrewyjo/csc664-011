@@ -25,8 +25,37 @@
                         </button>
                     </h5>
                 </div>
+                <div class="FileUp">
+                    <input type="file" id="myFile" name="filename" multiple>
+                    <input type="submit" onclick="">
+                </div>
+                <form class="createEvent">
+                    <label for="fname">Event Name: </label><br>
+                    <input type="text" id="fname" name="fname" value=""><br>
+                    <label for="lname">Date: </label><br>
+                    <input type="text" id="lname" name="lname" value=""><br><br>
+                    <input type="file" id="myFile" name="filename" multiple><br><br>
+                    <input type="submit" value="Submit">
+                </form>
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
+                        <div id="drop-area">
+                            <form class="my-form">
+                                <script>
+                                    let dropArea = document.getElementById('drop-area')
+
+                                    dropArea.addEventListener('dragenter', handlerFunction, false)
+                                    dropArea.addEventListener('dragleave', handlerFunction, false)
+                                    dropArea.addEventListener('dragover', handlerFunction, false)
+                                    dropArea.addEventListener('drop', handlerFunction, false)
+                                </script>
+                                <p>Upload multiple files with the file dialog or by dragging and dropping images onto
+                                    the dashed region</p>
+                                <input type="file" id="fileElem" multiple accept="image/*"
+                                    onchange="handleFiles(this.files)">
+                                <label class="button" for="fileElem">Select some files</label>
+                            </form>
+                        </div>
                         {% if files %}
                         {% for file in files %}
                         <img class="gallery-img" src="{% static 'data/001/'|add:file.name %}" alt="" />
@@ -72,6 +101,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link" aria-current="page" href="#" data-toggle="collapse"
                                         data-target="#Experimentation">Experimentation</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="#" data-toggle="collapse"
+                                        data-target="#Experimentation1">Experimentation Circle</a>
                                 </li>
                             </ul>
                         </div>
@@ -324,6 +357,7 @@
                             }
                         </style>
                         <script>
+
                             function allowDrop(ev) {
                                 ev.preventDefault();
                             }
@@ -338,6 +372,17 @@
                                 ev.target.appendChild(document.getElementById(data));
                             }
                         </script>
+
+
+                        <p></p>
+                        <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                        <br>
+                        <img id="drag1" src="{% static 'data/001/100_3014_4139078951_o.jpg' %}" draggable="true"
+                            ondragstart="drag(event)" width="100vw" height="auto">
+
+
+                    </div>
+                    <div class="Experimentation collapse" id="Experimentation1" aria-expanded="false">
                         <div id="chart"></div>
                         <script>
                             ////////////////////////////////////////////////////////////// 
@@ -359,8 +404,12 @@
                             var pack = d3.layout.pack()
                                 .padding(1)
                                 .size([diameter, diameter])
-                                .value(function (d) { return d.size; })
-                                .sort(function (d) { return d.ID; }); //Creates a more interesting visual I think
+                                .value(function (d) {
+                                    return d.size;
+                                })
+                                .sort(function (d) {
+                                    return d.ID;
+                                }); //Creates a more interesting visual I think
 
                             ////////////////////////////////////////////////////////////// 
                             /////////////////////// Create Canvas //////////////////////// 
@@ -389,11 +438,22 @@
                                 var dataBinding = dataContainer.selectAll(".node")
                                     .data(pack.nodes(dataset))
                                     .enter().append("circle")
-                                    .attr("class", function (d, i) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-                                    .attr("cx", function (d) { return d.x; })
-                                    .attr("cy", function (d) { return d.y; })
-                                    .attr("r", function (d) { return d.r; })
-                                    .attr("fill", function (d) { return d.children ? colorCircle(d.depth) : "white"; });
+                                    .attr("class", function (d, i) {
+                                        return d.parent ? d.children ? "node" : "node node--leaf" :
+                                            "node node--root";
+                                    })
+                                    .attr("cx", function (d) {
+                                        return d.x;
+                                    })
+                                    .attr("cy", function (d) {
+                                        return d.y;
+                                    })
+                                    .attr("r", function (d) {
+                                        return d.r;
+                                    })
+                                    .attr("fill", function (d) {
+                                        return d.children ? colorCircle(d.depth) : "white";
+                                    });
 
                                 ////////////////////////////////////////////////////////////// 
                                 ///////////////// Canvas draw function ///////////////////////
@@ -407,23 +467,14 @@
                                     //Draw each circle
                                     context.fillStyle = node.attr("fill");
                                     context.beginPath();
-                                    context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0, 2 * Math.PI, true);
+                                    context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0, 2 *
+                                        Math.PI, true);
                                     context.fill();
                                     context.closePath();
                                 });
 
                             });
-
                         </script>
-
-                        <p>Drag the W3Schools image into the rectangle:</p>
-
-                        <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                        <br>
-                        <img id="drag1" src="{% static 'data/001/100_3014_4139078951_o.jpg' %}" draggable="true"
-                            ondragstart="drag(event)" width="100vw" height="auto">
-
-
                     </div>
                 </div>
             </div>
@@ -476,6 +527,12 @@
     .gallery-img {
         width: 20vw;
         height: auto;
+    }
+
+    .FileUp {
+        text-align: center;
+        padding-top: .5%;
+        padding-bottom: 1%;
     }
 
     .gallery-img:hover {
@@ -1158,5 +1215,61 @@
         min-width: 3rem;
         border-radius: 6.25rem;
         opacity: .5
+    }
+
+    .createEvent {
+        text-align: center;
+        padding-top: .5%;
+        padding-bottom: .5%;
+        border-style: inset;
+    }
+
+    #drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 20px;
+        width: 480px;
+        font-family: sans-serif;
+        margin: 100px auto;
+        padding: 20px;
+    }
+
+    #drop-area.highlight {
+        border-color: purple;
+    }
+
+    p {
+        margin-top: 0;
+    }
+
+    .my-form {
+        margin-bottom: 10px;
+    }
+
+    #gallery {
+        margin-top: 10px;
+    }
+
+    #gallery img {
+        width: 150px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px;
+        background: #ccc;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .button:hover {
+        background: #ddd;
+    }
+
+    #fileElem {
+        display: none;
     }
 </style>

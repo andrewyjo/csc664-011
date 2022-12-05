@@ -10,3 +10,9 @@ class libraryForm(ModelForm):
     class Meta:
         model = models.Library
         exclude = []
+
+
+class emptyEventForm(ModelForm):
+    class Meta:
+        model = models.Event
+        exclude = []
