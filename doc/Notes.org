@@ -1,3 +1,32 @@
+
+GamePlan
+There are 3 things that need to be completed by tomorrow.
+1 The application
+2 The writeup
+3 The test server
+
+The application and writeup are priority one
+Then the test server.
+Using a test server allows us to make changes after midnight.
+
+* Application
+** Creating a proper events pipeline
+** Create Events Form
+** Creating proper event logic(i.e. calculating starting time and ending time)
+** Connecting GPS widget
+** Creating a Timeline
+    All of dates from ie 2000 to 2022
+    
+
+
+    
+** Creating an event hierarchy
+
+
+
+Writeup
+
+
 so there are 4 termianls opened
 1 is for running 'npm start' in server, the other for client/
 

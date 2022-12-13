@@ -3,7 +3,7 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
 from django.shortcuts import render, redirect
-
+from operator import attrgetter
 from . import forms
 from . import models
 import os
@@ -16,6 +16,129 @@ from mpld3 import plugins
 
 import cv2
 
+selectedLibraryFiles = []
+currentEvent = 0
+
+def refEvent(request,val):
+    files = models.File.objects.get(event_id = val)
+    events = models.Event.objects.all()
+
+    eventannotation = forms.emptyEventForm()
+    #mainevent = models.Event.objects.get(id = 50)
+    context = {
+        'files': files,
+        'events': events,
+        'eventannotation':eventannotation,
+        'selectedLibraryFiles':selectedLibraryFiles,
+    }
+    return render( request, 'index/test2.html', context)
+
+def test2(request):
+
+    files = models.File.objects.all()
+    events = models.Event.objects.all()
+
+    eventannotation = forms.emptyEventForm()
+    #mainevent = models.Event.objects.get(id = 50)
+    context = {
+        'files': files,
+        'events': events,
+        'eventannotation':eventannotation,
+        'selectedLibraryFiles':selectedLibraryFiles,
+        'currentEvent':currentEvent
+    }
+
+    if 'eventannotationbtn' in request.POST:
+        eventannotation = forms.emptyEventForm(request.POST)
+        print(request.POST['name'][0])
+        if eventannotation.is_valid():
+            starttime1= min(selectedLibraryFiles, key=attrgetter('start_time')).start_time.strftime("YYYYMMDD HH:mm:ss (%Y%m%d %H:%M:%S)")
+            endtime1= min(selectedLibraryFiles, key=attrgetter('end_time')).end_time.strftime("YYYYMMDD HH:mm:ss (%Y%m%d %H:%M:%S)")
+            event = models.Event.objects.create(name=request.POST['name'],starttime=starttime1, endtime=endtime1)
+
+            #event.starttime = min(selectedLibraryFiles, key=attrgetter('start_time'))
+            #event.endtime = min(selectedLibraryFiles, key=attrgetter('end_time'))
+            print(starttime1, " " ,endtime1)
+            
+            for x in selectedLibraryFiles:
+                entry = models.File.objects.get(name = x.filename)
+                entry.event_id = event
+                entry.save()
+                #print(entry.filename)
+                print(x.start_time)
+            
+
+            print(event.starttime.start_time, "|" , event.endtime)
+
+            #print(request.POST.getlist('selectFile'))
+        return render( request, 'index/test2.html', context)
+
+    elif 'imgclickbtn' in request.POST:
+
+        for y in models.File.objects.filter(name = request.POST['imgclickbtn']):
+            selectedLibraryFiles.append(y)
+            print(y.name)
+        
+
+
+        return render( request, 'index/test2.html', context)
+
+    elif 'eventSelector' in request.POST:
+        if request.POST['eventSelector'] != '0':
+            print("hi not 57")
+            files = models.File.objects.filter(event = request.POST['eventSelector'])
+            context = {
+                'files': files,
+                'events': events,
+                'eventannotation':eventannotation,
+                'selectedLibraryFiles':selectedLibraryFiles,
+                'currentEvent':currentEvent
+            }
+            #Calculating start and end time from a list of files
+            #Attain a list of start dates, and find the min
+            #find the max
+            #These will be the threshold for events
+
+            print(files)
+            print(request.POST['eventSelector'])
+            return render( request, 'index/test2.html', context)
+        else:
+            print("hi 57")
+            #files = models.File.objects.all()
+            #context = {
+            #    'files': files,
+            #    'events': events,
+            #    'eventannotation':eventannotation,
+            #    'selectedLibraryFiles':selectedLibraryFiles,
+            #    'currentEvent':currentEvent
+            #}
+            print(request.POST['eventSelector'])
+            #return render( request, 'index/test2.html', context)
+            return redirect(test2)
+
+
+    return render( request, 'index/test2.html', context)
+
+
+
+def timeline(request):
+    context = {
+        'events' : models.Event.objects.all(),
+        'files' : models.File.objects.all(),
+        'years' : ["2009", "2019", "2022"],
+    }
+    events =  models.Event.objects.filter()
+
+    return render(request, 'index/timeline.html', context)
+
+
+def spatialdata(request):
+    context = {
+        'events' : models.Event.objects.all(),
+        'files' : models.File.objects.all(),
+    }
+
+    return render(request, 'index/spatialdata.html', context)
 
 
 
@@ -28,6 +151,7 @@ def facialDetection(p, filename):
 
     image = cv2.imread(p)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
 
     faces = faceCascade.detectMultiScale(
         gray,
@@ -68,13 +192,17 @@ def index(request):
               "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"]
 
     files = models.File.objects.all()
+    events = models.Event.objects.all()
+    #mainevent = models.Event.objects.get(id = 50)
     context = {
-        'files': files
+        'files': files,
+        'events': events,
+        #'mainevent': mainevent
     }
 
     return render(request, "index/index.html", context)
 
-def bubbles(request):
+def newEvent(request):
     #currentLibrary = models.Library.objects.get(id=1)
 
     #os.system('ls ../data/001/ >> filelist.txt')
@@ -90,6 +218,9 @@ def bubbles(request):
     #   blob.save()
     months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
               "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"]
+
+    years = ["2022", "2019", "2009"]
+
 
     files = models.File.objects.all()
     selectedFiles = []

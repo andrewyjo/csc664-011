@@ -1,0 +1,97 @@
+{% load static %}
+<div class="app">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne">Expand Library</button>
+                    <button href="" class="btn btn-primary pt-2" style="background-color:white" type="submit"><a
+                            href="{% url 'newEvent'%}">Create
+                            New Event</a></button>
+                    </button>
+                    <label for="events">Choose an event:</label>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <select name="eventSelector" id="events" onchange="this.form.submit()">
+                            {% if events %}
+                            {% for event in events %}
+                            <option value="{{event.id}}">{{event.name}}</option>
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                    </form>
+                </h5>
+            </div>
+
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+
+                {% if files %}
+                {% for file in files %}
+                <form method="POST">
+                    <button name="imgclickbtn" value="{{file.filename}}">
+                        {% csrf_token%}
+                        <img id="gallery-img" class="gallery-img" src="{% static 'data/001/'|add:file.name %}" alt="" />
+                    </button>
+                </form>
+
+                {% endfor %}
+                <script>
+
+                    var list = document.getElementById('currentEvent');
+
+                    function changeText2() {
+                        var name = document.getElementById("imgclickbtn").value;
+                        console.log(name)
+                        var entry = document.createElement('li');
+                        entry.appendChild(document.createTextNode(name));
+                        list.appendChild(entry);
+                    }
+                </script>
+                <br />
+                {% endif %}
+                <br />
+                {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for field, errors in form.errors.items %} {% for error in errors %}
+                    <b>{{ field }}</b>: {{ error }} {% endfor %} {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .gallery-img {
+        height: 64px;
+        width: auto;
+    }
+
+    #collapseOne {
+        height: 512px;
+        width: auto;
+        overflow: scroll;
+    }
+
+
+    .FileUp {
+        text-align: center;
+        padding-top: .5%;
+        padding-bottom: 1%;
+    }
+
+    .gallery-img:hover {
+        -webkit-filter: brightness(40%);
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>

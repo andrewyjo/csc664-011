@@ -16,3 +16,8 @@ class emptyEventForm(ModelForm):
     class Meta:
         model = models.Event
         exclude = []
+        widgets = {
+            'starttime': DateInput(attrs={'type': 'date'}),
+            'endtime': DateInput(attrs={'type': 'date'})
+
+        }
