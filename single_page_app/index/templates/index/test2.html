@@ -18,15 +18,23 @@
         <div class="eventhierarchy">
             <p>event hierarchy</p>
 
+            {% if currentEvent %}
+            <p>{{currentEvent}}</p>
+            {% endif %}
+            {% if eventsJSON %}
+            {{eventsJSON}}
+            {% endif %}
+
         </div>
         <div class="gpsmap">
-            <p>gps</p>
+            <button class="btn-outline-dark" name="GPSnav" type="submit"><a href="{% url 'spatialdata' %}">GPS Event
+                    Viewer</a> </button>
 
 
         </div>
         <div class="timeline">
             <p>timeline</p>
-            {i include 'index/timeline.html' %}
+            {% include 'index/timeline.html' %}
         </div>
         <div class="eventannotation">
             <p>eventannotation</p>
@@ -56,26 +64,38 @@
             "eventhierarchy gpsmap"
             "timeline timeline"
             "eventannotation library";
+        text-align: cente;
+        color: blue;
     }
 
     .eventhierarchy {
         grid-area: eventhierarchy;
+        border: outset;
     }
 
     .gpsmap {
         grid-area: gpsmap;
+        border: outset;
     }
 
     .timeline {
+
         grid-area: timeline;
+        border: outset;
+        text-align: center;
+        /**grid-border: outset;**/
     }
+
+    /**: outset;}**/
 
     .eventannotation {
         grid-area: eventannotation;
+        border: outset;
     }
 
     .library {
         grid-area: library;
+        border: outset;
     }
 </style>
 

@@ -1,3 +1,25 @@
+* Submission Day
+** Introspections
+   Right now events can be created with multimedia files.
+   The start/end date needs to be calculated and inputted
+   This means that it will need to be reformatted to a proper datetime format
+   
+   Afterwards you can focus on implementing Events into the Timeline
+   and then GPS
+   
+   And then start documentation and the production server
+
+** Personal Kanban
+   |------+-------+------|
+   | TODO | DOING | DONE |
+   |------+-------+------|
+   |      |       |      |
+   |      |       |      |
+   |      |       |      |
+   |      |       |      |
+   |      |       |      |
+   |------+-------+------|
+
 
 GamePlan
 There are 3 things that need to be completed by tomorrow.
@@ -16,7 +38,7 @@ Using a test server allows us to make changes after midnight.
 ** Connecting GPS widget
 ** Creating a Timeline
     All of dates from ie 2000 to 2022
-    
+
 
 
     
@@ -31,10 +53,6 @@ so there are 4 termianls opened
 1 is for running 'npm start' in server, the other for client/
 
 the other two are scratch terminals incase you need it
-
-
-
-
 
 
 

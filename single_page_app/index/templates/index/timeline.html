@@ -35,38 +35,48 @@
         var container = document.getElementById('visualization');
 
         // Create a DataSet (allows two way data-binding)
-        var items = new vis.DataSet([{
-            id: 1,
-            content: 'item 1',
-            start: '2020-04-20',
-        },
-        {
-            id: 2,
-            content: 'item 2',
-            start: '2020-04-14',
-        },
-        {
-            id: 3,
-            content: 'item 3',
-            start: '2020-04-18',
-        },
-        {
-            id: 4,
-            content: 'item 4',
-            start: '2020-04-16',
-            end: '2020-04-19'
-        },
-        {
-            id: 5,
-            content: 'item 5',
-            start: '2020-04-25',
-        },
-        {
-            id: 6,
-            content: 'item 6',
-            start: '2020-04-27',
-        }
-        ]);
+        //var items = new vis.DataSet('./eventdata.json');
+        var items = new vis.DataSet(
+            [
+                {
+                    "id": 0,
+                    "content": "Main Library",
+                    "start": "2021-11-16T17:30:38Z",
+                    "end": "2022-12-31T00:00:00Z"
+                },
+                {
+                    "id": 1,
+                    "content": "Event 1",
+                    "start": "2008-11-16T17:30:38Z",
+                    "end": "2009-11-16T18:44:07Z"
+                },
+                {
+                    "id": 2,
+                    "content": "Second event",
+                    "start": "2009-11-16T17:30:38Z",
+                    "end": "2009-11-16T18:01:41Z"
+                },
+                {
+                    "id": 3,
+                    "content": "3rd event",
+                    "start": "2009-11-16T17:30:38Z",
+                    "end": "2010-11-16T18:01:41Z"
+                },
+                {
+                    "id": 4,
+                    "content": "4th Event",
+                    "start": "2012-11-16T17:30:38Z",
+                    "end": "2013-11-16T18:43:48Z"
+                },
+                {
+                    "id": 5,
+                    "content": "5th Event",
+                    "start": "2009-11-16T17:30:38Z",
+                    "end": "2009-11-16T18:43:33Z"
+                }
+            ]
+
+        );
 
         // Configuration for the Timeline
         var options = {
@@ -80,19 +90,19 @@
             zoomMin: 10, // 10ms
             // Define a template function which constructions the HTML for each item
 
-            template: function (item, element, data) {
+            //     template: function (item, element, data) {
 
-                var html = '<img class="timeline-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/640px-Square_-_black_simple.svg.png" >' +
-                    '<img class="timeline-image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/640px-Square_-_black_simple.svg.png" >' +
-                    item.content + "</div> "
-                return html;
-            },
-            xss: {
-                disabled: false,
-                filterOptions: {
-                    whiteList: { img: ['src', 'class'], div: 'class' }
-                },
-            },
+            //         var html = '<img class="timeline-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/640px-Square_-_black_simple.svg.png" >' +
+            //             '<img class="timeline-image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/640px-Square_-_black_simple.svg.png" >' +
+            //             item.content + "</div> "
+            //         return html;
+            //     },
+            //     xss: {
+            //         disabled: false,
+            //         filterOptions: {
+            //             whiteList: { img: ['src', 'class'], div: 'class' }
+            //         },
+            //     },
 
         };
 

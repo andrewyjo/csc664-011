@@ -16,8 +16,14 @@ from mpld3 import plugins
 
 import cv2
 
+from django.core import serializers
+
 selectedLibraryFiles = []
 currentEvent = 0
+
+def sendEventJSON():
+    json_serializer = serializers.get_serializer("json")()
+    events = json_serializer.serialize(models.Event.objects.all().order_by('id')[:5], ensure_ascii=False)
 
 def refEvent(request,val):
     files = models.File.objects.get(event_id = val)
@@ -37,6 +43,9 @@ def test2(request):
 
     files = models.File.objects.all()
     events = models.Event.objects.all()
+    json_serializer = serializers.get_serializer("json")()
+
+    eventsJSON = json_serializer.serialize(models.Event.objects.all())
 
     eventannotation = forms.emptyEventForm()
     #mainevent = models.Event.objects.get(id = 50)
@@ -45,20 +54,22 @@ def test2(request):
         'events': events,
         'eventannotation':eventannotation,
         'selectedLibraryFiles':selectedLibraryFiles,
-        'currentEvent':currentEvent
+        'currentEvent':currentEvent,
+        'eventsJSON': eventsJSON
     }
 
     if 'eventannotationbtn' in request.POST:
         eventannotation = forms.emptyEventForm(request.POST)
-        print(request.POST['name'][0])
+        #print(request.POST['name'][0])
         if eventannotation.is_valid():
-            starttime1= min(selectedLibraryFiles, key=attrgetter('start_time')).start_time.strftime("YYYYMMDD HH:mm:ss (%Y%m%d %H:%M:%S)")
-            endtime1= min(selectedLibraryFiles, key=attrgetter('end_time')).end_time.strftime("YYYYMMDD HH:mm:ss (%Y%m%d %H:%M:%S)")
-            event = models.Event.objects.create(name=request.POST['name'],starttime=starttime1, endtime=endtime1)
+            starttime1= min(selectedLibraryFiles, key=attrgetter('start_time'))
+            endtime1= max(selectedLibraryFiles, key=attrgetter('end_time'))
+            event = models.Event.objects.create(name=request.POST['name'],starttime=starttime1.start_time, endtime=endtime1.end_time)
+            event.save()
 
             #event.starttime = min(selectedLibraryFiles, key=attrgetter('start_time'))
             #event.endtime = min(selectedLibraryFiles, key=attrgetter('end_time'))
-            print(starttime1, " " ,endtime1)
+            print(starttime1.start_time, " " ,endtime1.end_time)
             
             for x in selectedLibraryFiles:
                 entry = models.File.objects.get(name = x.filename)
@@ -68,7 +79,7 @@ def test2(request):
                 print(x.start_time)
             
 
-            print(event.starttime.start_time, "|" , event.endtime)
+            #print(event.starttime.start_time, "|" , event.endtime)
 
             #print(request.POST.getlist('selectFile'))
         return render( request, 'index/test2.html', context)
@@ -87,12 +98,15 @@ def test2(request):
         if request.POST['eventSelector'] != '0':
             print("hi not 57")
             files = models.File.objects.filter(event = request.POST['eventSelector'])
+            json_serializer = serializers.get_serializer("json")()
             context = {
                 'files': files,
                 'events': events,
                 'eventannotation':eventannotation,
                 'selectedLibraryFiles':selectedLibraryFiles,
-                'currentEvent':currentEvent
+                'currentEvent': json_serializer.serialize(models.Event.objects.filter(id = request.POST['eventSelector'])),
+                'eventsJSON': eventsJSON
+
             }
             #Calculating start and end time from a list of files
             #Attain a list of start dates, and find the min
@@ -101,10 +115,23 @@ def test2(request):
 
             print(files)
             print(request.POST['eventSelector'])
+            print( json_serializer.serialize(models.Event.objects.filter(id = request.POST['eventSelector'])))
             return render( request, 'index/test2.html', context)
         else:
             print("hi 57")
             #files = models.File.objects.all()
+            json_serializer = serializers.get_serializer("json")()
+            #events = json_serializer.serialize(models.File.objects.filter(event = request.POST['eventSelector']))
+            context = {
+                'files': files,
+                'events': events,
+                'eventannotation':eventannotation,
+                'selectedLibraryFiles':selectedLibraryFiles,
+                'currentEvent': json_serializer.serialize(models.Event.objects.filter(id = request.POST['eventSelector'])),
+                'eventsJSON': eventsJSON
+
+            }
+            print( json_serializer.serialize(models.Event.objects.filter(id = request.POST['eventSelector'])))
             #context = {
             #    'files': files,
             #    'events': events,
@@ -136,9 +163,9 @@ def spatialdata(request):
     context = {
         'events' : models.Event.objects.all(),
         'files' : models.File.objects.all(),
-    }
+   }
 
-    return render(request, 'index/spatialdata.html', context)
+    return render(request, 'index/dbeaver.html')
 
 
 

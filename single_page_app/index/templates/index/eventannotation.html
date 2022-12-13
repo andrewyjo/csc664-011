@@ -18,6 +18,11 @@
         <button class="gallery-img" name="eventannotationbtn" type="submit">Update Event</button>
 
     </form>
+    {% if currentEvent %}
+    <p>{{currentEvent.name}}</p>
+    <p>{{currentEvent.starttime}}</p>
+    <p>{{currentEvent.endtime}}</p>
+    {% endif %}
 
 </div>
 
