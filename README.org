@@ -17,29 +17,46 @@
      + MySQL 8.0
 
     1.) clone the repo: https://github.com/andrewyjo/csc664-011
+    
     2.) download and extract the contents of 001.zip(https://drive.google.com/file/d/1r34uU2iv7HH8X50NA4J_uXklUc8B4DEF/view?usp=sharing) into single_page_app/static/data/001/
+    
     3.) navigate into single_page_app/
+    
     4.) run the following commands to install django and its dependencies
+    
     sudo apt update && sudo apt upgrade
+    
     python3 -m pip install django
+    
     python3 -m pip install django-taggit
+    
     python3 -m pip install pymysql
+    
     python3 -m pip install mysqlserver
+    
     
     
     Log into MySQL shell and create a super user for our database.
     create database smartmediainterface;
+    
     CREATE USER 'tester00'@'localhost' IDENTIFIED BY 'Grapefruit123!@#';
+    
     CREATE USER 'tester00'@'%' IDENTIFIED BY 'Grapefruit123!@#';
+    
     GRANT ALL PRIVILEGES ON *.* TO 'tester00'@'%' WITH GRANT OPTION;
+    
     GRANT ALL PRIVILEGES ON *.* TO 'tester00'@'localhost' WITH GRANT OPTION;
+    
     FLUSH PRIVILEGES;
     
     Now in the same directory as 'manage.py'
     run:
     python3 manage.py makemigrations 
+    
     python3 manage.py makemigrations index
+    
     python3 manage.py migrate
+    
     
     Afterwards Execute the scripts in the doc/database/SQL/
     
