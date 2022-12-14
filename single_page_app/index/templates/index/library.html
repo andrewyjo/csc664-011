@@ -4,13 +4,12 @@
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                        aria-controls="collapseOne">Expand Library</button>
                     <button href="" class="btn btn-primary pt-2" style="background-color:white" type="submit"><a
                             href="{% url 'newEvent'%}">Create
                             New Event</a></button>
                     </button>
-                    <label for="events"><brChoose an event:</label>
+                    <button>Upload Multimedia File</button>
+                    <label for="events">Choose an event:</label>
 
                     <form method="POST">
                         {% csrf_token %}
@@ -27,45 +26,47 @@
 
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="container">
+                    {% if files %}
+                    {% for file in files %}
+                    <form method="POST">
+                        <button name="imgclickbtn" value="{{file.filename}}">
+                            {% csrf_token%}
+                            <img id="gallery-img" class="gallery-img" src="{% static 'data/001/'|add:file.name %}"
+                                alt="" />
+                        </button>
+                    </form>
 
-                {% if files %}
-                {% for file in files %}
-                <form method="POST">
-                    <button name="imgclickbtn" value="{{file.filename}}">
-                        {% csrf_token%}
-                        <img id="gallery-img" class="gallery-img" src="{% static 'data/001/'|add:file.name %}" alt="" />
-                    </button>
-                </form>
+                    {% endfor %}
+                    <script>
 
-                {% endfor %}
-                <script>
+                        var list = document.getElementById('currentEvent');
 
-                    var list = document.getElementById('currentEvent');
-
-                    function changeText2() {
-                        var name = document.getElementById("imgclickbtn").value;
-                        console.log(name)
-                        var entry = document.createElement('li');
-                        entry.appendChild(document.createTextNode(name));
-                        list.appendChild(entry);
-                    }
-                </script>
-                <br />
-                {% endif %}
-                <br />
-                {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {% for field, errors in form.errors.items %} {% for error in errors %}
-                    <b>{{ field }}</b>: {{ error }} {% endfor %} {% endfor %}
+                        function changeText2() {
+                            var name = document.getElementById("imgclickbtn").value;
+                            console.log(name)
+                            var entry = document.createElement('li');
+                            entry.appendChild(document.createTextNode(name));
+                            list.appendChild(entry);
+                        }
+                    </script>
+                    <br />
+                    {% endif %}
+                    <br />
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for field, errors in form.errors.items %} {% for error in errors %}
+                        <b>{{ field }}</b>: {{ error }} {% endfor %} {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
 <style>
     .gallery-img {
-        height: 64px;
+        height: 150px;
         width: auto;
     }
 
@@ -73,6 +74,11 @@
         height: 512px;
         width: auto;
         overflow: scroll;
+    }
+
+    .container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-flow: column;
     }
 
 

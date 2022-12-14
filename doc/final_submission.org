@@ -1,11 +1,116 @@
+#+SETUPFILE: http://portalsf.surge.sh/static/org-themes/readtheorg_inline/readtheorg_inline.theme
+#+TITLE:Automatic event-based grouping and interaction with personal multimedia information
+#+AUTHOR:Team 11
+#+DESCRIPTION:Automatic event-based grouping and interaction with personal multimedia information
+#+DATE:<2022-12-10 Sat>
 
+* Report Guidelines
+Project REPORTS
+1. Project submissions are due on December 10 via iLearn by midnight. One submission needs
+to be made per team. The work of each team member should be clearly indicated. Late
+submissions will not be accepted.
 
+2. What to Include in the final submission:
+Your report in editable format (such as word). See directions on how to write a report on iLearn
+Your proposal slides and midterms slides.
+The source code of your implementation along with any data-sets needed for verifying it. Make
+sure that your code is clearly commented.
+Create a short README file which includes *ALL* necessary instructions for compiling your
+code and testing it using the data sets you have provided. Include the README file with your
+submission. It is your responsibility to make sure that all necessary information for
+compiling/running the code is provided.
 
+General Structure
+1. Introduction
+2. Proposed problem formulation
+3. High-Level description of your idea
+4. Prior work in the area
+5. Description of your work
+
+(Details of the structure will depend on what you are doing)
+- Overview of system description
+- Specific technical details for each part of the system on which
+work was done
+- Relate how the technical work supports your idea
+6. Experimental evaluations
+- Quantitative data which shows how well your ideas and
+implementations work
+7. Conclusions
+8. References
+
+* Automatic event-based grouping and interaction with personal multimedia information
 
 * Introduction
+  In this project, Team 11 was tasked to create a smart multimedia interface that automatically groups multimedia files into events based on the spatial, 
+  temporal, and hierarchical nature of the event.
+  To complete this task, we used a Python web framework called Django, in order to create a web application that utilizes a combination of HTML/CSS/JS, Python, and MySQL code.
+  We were able to than modularize our project into three components as suggested by the research[0]: the UI layer, the Logic layer, and the Cold-Storage layer. 
+  While we were able to complete the rudamentary functions our personal multimedia interface(PMI) should offer(like creating events and grouping them based on temporal and spatial features),
+  there arose a consistent overhead of system and developer issues regarding latency and code demographics. 
+  Through our user-research we were able to analyze the strengths and weaknesses of our application- we ultimately found that compared to other competitors, our application was subpar and featured numerous inefficiencies that created frustration and complexity for the user.
+  Because of the significance of the data, we were then able to incorporate our own methods to optimize the application's efficiency and overall user satisfaction. 
 
-* Instructions for Project Setup
+* Proposed Problem Formulation
+  At a high-abstract level, we were dealing with two core problems:
+  + creating a GUI that is optimized for overall user experience
+  + finding a methodology to automatically group multimedia files
+    - This includes approaching pre-existing multimedia models from a very generic and semantically ubiquitous angle, such as events.
+  
+* High-Level Description
+** Design
+   DONE System Architecture 
+   DONE Initial Prototype
+   DONE Re-Iterated Protoype
+   DONE Client-Server-DB framework
+   DONE GUI drawings
+   
+** Multimedia I/O Methodology
+   Event Conceptualization
+   - Event Information
+     - Metadata
+     - Manually adding GPS coordinates to each file
 
-* Issues
+   - Event Relations
+     - Point-Point Relations
+     - Point-Interval Relations
+     - Interval-Interval Relations
 
-* Outline
+   - Media Support
+     - Support for images and videos but also other uncommon media types like documents, applications, and such.
+     - There are 10 registered MIMEtypes that allow us to categorize and modularize the universal media player into different parts such as a video player, an image viewer, a document viewer, and a method to visualize applications.
+
+   DB Models
+   Initially, Files and Events were a one-to-many relationship, meaning we can have files tied to multiple events. However in order to meet time requirements we had to rapidly prototype a quick Event-File model that had actually worked with our pre-existing design.
+   In our rudamentary Event-File relation, there is a one-to-one relationship, meaning one file can have only one event. This made it easier to keep track of the parent event and then create an interface where we would be able to visualize the event hierarchy.
+   - Event Hierarchy
+   - Event
+   - File
+
+* Prior Work in the Area
+** Code Demographics
+   While all team members had experience with creating web applications that feature multimedia I/O modules,
+   there was a clear impasse regarding which programming language to use for our application: python or javascript.
+   
+   We experimented with both, using ReactJS as our frontend and Django as our backend, and subsequently because we each had to learn the other language, there arose many code conflicts.
+   A lot of the time our code would not work harmoniously and instead we mitigated this issue by using Django as our frontend engine and also our backend. In order to reduce the overhead of learning a new programming language,
+   we introduced pair-programming and did all our work together via a shared IDE.
+   
+* Work Description
+** System Overview
+
+
+** Specific technical details
+** How technical work supports your idea
+   
+* Experimental Results
+** Quantitative Data
+** Qualitative Data
+** TLX
+   
+* Issues, Introspections, and Solutions
+  
+* Team Contribution Table
+
+* Conclusions
+
+* References

@@ -3,8 +3,6 @@
     <form action="" class="eventform" method="POST">
         {%csrf_token%}
         {{eventannotation.name}}
-        {{eventannotation.starttime}}
-        {{eventannotation.endtime}}
         {% if selectedLibraryFiles %}
         {% for sFile in selectedLibraryFiles %}
         <img class="gallery-img" src="{% static 'data/001/'|add:sFile.name%}" alt="">
@@ -15,7 +13,7 @@
         {% endfor %}
         {% endif %}
         <ol id="currentEvent"></ol>
-        <button class="gallery-img" name="eventannotationbtn" type="submit">Update Event</button>
+        <button class="gallery-img" name="eventannotationbtn" type="submit">New Event</button>
 
     </form>
     {% if currentEvent %}
