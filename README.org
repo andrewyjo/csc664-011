@@ -1,108 +1,62 @@
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+TITLE:Intelligent Multimedia Interface
-#+AUTHOR:Kevin Islas, Andy Cho
+#+AUTHOR:Kevin Islas Orgaz, Andy Cho
 #+DESCRIPTION:docs for our pim
 #+DATE:<2022-11-26 Sat>
 
-* Notes
 
-  The layout has been made[2,1,2]
-  In Clockwise Direction
-  1.) GPS map
-  2.) Timeline
-  3.) Library
-  4.) eventannotation
-  5.) Event hierarchy
+* README
 
+** Instructions for Running
+*** Option 1) Goto 34.94.7.211:8132/test2
 
-* Team Kanban Board
-  |-------+-------+-------------|
-  | TODO  | DOING | DONE        |
-  |-------+-------+-------------|
-  | ANDY  |       |             |
-  |-------+-------+-------------|
-  |       |       | Grid-layout |
-  |       |       |             |
-  |-------+-------+-------------|
-  | KEVIN |       |             |
-  |-------+-------+-------------|
-  |       |       |             |
-  |       |       |             |
-  |-------+-------+-------------|
-  | BOTH  |       |             |
-  |-------+-------+-------------|
-  |       |       |             |
-  |       |       |             |
-  |-------+-------+-------------|
-* Introduction
-* Project Guidelines
-* About this Repo
-  
-** In order to run this project at this stage:
-   
-   In the client/ folder, make sure to make a directory called data/DATA01/
+*** Option 2) Build from Source(on an ubuntu based system)
+    Dependencies:
+     + Python3
+     + git
+     + MySQL 8.0
 
-   1.) Open two terminals
-   2.) cd into client and cd into server for each terminal respectively
-   For each terminal:
-   3.) Do a npm init -y
-   4.) npm install
-   5.) npm start 
-   
-   
+    1.) clone the repo: https://github.com/andrewyjo/csc664-011
+    2.) download and extract the contents of 001.zip(https://drive.google.com/file/d/1r34uU2iv7HH8X50NA4J_uXklUc8B4DEF/view?usp=sharing) into single_page_app/static/data/001/
+    3.) navigate into single_page_app/
+    4.) run the following commands to install django and its dependencies
+    sudo apt update && sudo apt upgrade
+    python3 -m pip install django
+    python3 -m pip install django-taggit
+    python3 -m pip install pymysql
+    python3 -m pip install mysqlserver
+    
+    
+    Log into MySQL shell and create a super user for our database.
+    create database smartmediainterface;
+    CREATE USER 'tester00'@'localhost' IDENTIFIED BY 'Grapefruit123!@#';
+    CREATE USER 'tester00'@'%' IDENTIFIED BY 'Grapefruit123!@#';
+    GRANT ALL PRIVILEGES ON *.* TO 'tester00'@'%' WITH GRANT OPTION;
+    GRANT ALL PRIVILEGES ON *.* TO 'tester00'@'localhost' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    
+    Now in the same directory as 'manage.py'
+    run:
+    python3 manage.py makemigrations 
+    python3 manage.py makemigrations index
+    python3 manage.py migrate
+    
+    Afterwards Execute the scripts in the doc/database/SQL/
+    
+    python3 manage.py runserver
+    
+    navigate to 'localhost:8000/test2'
 
-* Dataset
-* Design
-* Features
-* Experiments: efficiency and optimality of our interface
-* Research
-* Research Summaries and Notes
-* Common Errors
-
-GUI
-
-(1) An interactive map
-(2) Universal Media Player
-(3) Event-Hierarchy Viewer
-(4) Audio Annotation Tool
-(5) Event-Detail Display
-(6) Timeline
-(7) Media Gallery
-
-
-User Operation List
-| Operation                               | I/O                  | GUI Action                                                                                                                                                                     |
-| Create Empty Event                      | {}->event            | Draw a r ectangle to indicate approximate start and end dates in the timeline or right click on the hierarchy viewer to create a new event, and then enter details.            |
-| Create Event(manual)                    | {MMO}->event         | Draw a r ectangle to indicate approximate start and end dates in the timeline or right click on the hierarchy viewer to create a new event, and then enter details.            |
-| Create Events using a cluster algorithm | {MMO} -> {event}     | Select multiple media items from the gallery, and then right click to se lect the clustering options. Multiple events will be created automatically based on the events dates. |
-| Insert Media                            | {MMO}, event         | Select one or more media items inserted into existing event then DnD into the desired event on the hierarchy viewer or timeline.                                               |
-| Remove Event                            | {MMO}                | Select one or multiple media items, and then right click to remove to an archive.                                                                                              |
-| Attach Event                            | {event},event        | Select an event to be atta ched then DnD to the desired event. If the event is not within the time range of the super-event, it would not be attached                          |
-| Detach from super-event                 | {event}, super-event | Select an event to detach then DnD it outside the super-event                                                                                                                  |
-
-
-* Demonstrating Design Efficacy and Event-Clustering through Experimentation
-  
-
-**** Compared with Competitors
-     Apple Photos, Google Albums
-
-****  Experimentation
-***** Effectiveness of Time-Based Clustering to Define Events
-***** Usefulness of the proposed interactions for users in managing information
-
-***** Qualitative and Quantitative results 
-     + Likert Scales, Questionnaires, and Surveys
-     + Empirical measurements of access complexity via motions/time
-     + Estimate the NASA Task Load Index score for various environments
-
-Events
--> Theory, event-relations, clustering
+    
+    
+    
 
 
 
-* Lecture Notes
-Unit Tests
-Data Parameters 
-Easy Environment Setup
-contribution table
+
+
+
+    
+
+
+
